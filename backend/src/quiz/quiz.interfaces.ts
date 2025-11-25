@@ -1,19 +1,16 @@
-interface AnswerInput {
+export interface IAnswer {
   text: string
   isCorrect: boolean
 }
 
-interface QuestionInput {
+export interface IQuestion {
   text: string
   type: 'MULTIPLE' | 'BOOLEAN' | 'TEXT'
-  answers: {
-    create: AnswerInput[]
-  }
+  answers: IAnswer[]
 }
 
-interface CreateQuizInput {
-  title: string
-  questions: {
-    create: QuestionInput[]
-  }
+export interface IQuiz {
+    title: string,
+    id: number,
+    questions: IQuestion[]
 }

@@ -1,19 +1,45 @@
 import prisma from "../utils/prisma";
+import {IAnswer, IQuestion, IQuiz} from "./quiz.interfaces";
 
-export const createQuiz = async (data: any) => {
+export const createQuiz = async (data: IQuiz) => {
+    // return prisma.quiz.create({
+    //     data: {
+    //         title: data.title,
+    //         questions: data.questions,
+    //     },
+    //     include: {
+    //         questions: {
+    //             include: {
+    //                 answers: true,
+    //             },
+    //         },
+    //     },
+    // });
+
+    // Як на мене так краще ?
+
+    // На помилочку
+
+    console.log('Data: ', JSON.stringify(data));
+    console.log('Questions: ', JSON.stringify(data.questions));
+    console.log('Is array: ', Array.isArray(data.questions));
     return prisma.quiz.create({
         data: {
             title: data.title,
-            questions: data.questions,
-        },
-        include: {
             questions: {
-                include: {
-                    answers: true,
-                },
-            },
-        },
-    });
+                create: data.questions.map((question: IQuestion) => ({
+                    text: question.text,
+                    type: question.type,
+                    answers: {
+                        create: question.answers.map((answer: IAnswer) => ({
+                          text: answer.text,
+                          isCorrect: answer.isCorrect
+                        }))
+                    }
+                }))
+            }
+        }
+    })
 };
 
 export const listQuizzes = async () => {
@@ -39,11 +65,15 @@ export const listQuizzes = async () => {
 export const getQuiz = async (id: number) => {
     return prisma.quiz.findUnique({
         where: {id},
-        select: {
-            id: true,
-            title: true,
-            questions: true
+
+        include: {
+            questions: {
+                include: {
+                    answers: true
+                }
+            }
         }
+            // Залишимо createdAt & updateAt для прикладу
     })
 }
 

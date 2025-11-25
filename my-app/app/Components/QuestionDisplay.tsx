@@ -27,7 +27,7 @@ export const QuestionDisplay: React.FC<QuestionDisplayProps> = ({
   showResults
 }) => {
   return (
-    <div className="border rounded-xl p-6 bg-white shadow-sm">
+    <div className="border border-border-color rounded-lg p-6 bg-elevated shadow-sm">
       <h3 className="font-semibold mb-4 text-lg">
         {questionNumber}. {text}
       </h3>

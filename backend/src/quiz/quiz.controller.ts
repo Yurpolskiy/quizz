@@ -4,6 +4,7 @@ import {createQuiz, deleteQuiz, getQuiz, listQuizzes} from "./quis.service";
 
 const quizRouter = Router();
 
+// Тут ну дуже погано валiдацiя зроблена, але для прикладу норм ?
 quizRouter.post('/quizzes', async(req, res) => {
     try {
         const quiz = await createQuiz(req.body);
