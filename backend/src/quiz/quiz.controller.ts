@@ -37,10 +37,10 @@ quizRouter.get('/quizzes/:id', async(req, res) => {
 
 quizRouter.delete('/quizzes/:id', async(req, res) => {
     try {
-        const quiz = await deleteQuiz(Number(req.params.id))
-        return res.status(201).send({"Message": "Quiz deleted successfully", quiz});
+        const deletedQuiz = await deleteQuiz(Number(req.params.id));
+        return res.status(200).send(deletedQuiz);
     } catch(err) {
-        return res.status(400).send({message: "Error deleting quizzles", err});
+        return res.status(400).send({Message: `error while deleting quiz ${err}`,})
     }
 })
 
