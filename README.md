@@ -14,7 +14,7 @@ createdb yourdb
 ```
 
 
-then fill your .env file with the following data
+then fill your .env file in backend folder with the following data
 ```
 DATABASE_URL=postgresql://username:password@localhost:5432/yourdb
 PORT=3000
