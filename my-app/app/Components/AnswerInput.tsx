@@ -24,18 +24,17 @@ export const AnswerInput: React.FC<AnswerInputProps> = ({
         onChange={(e) => onChange('text', e.target.value)}
         placeholder="Answer text"
         className={cn(
-          'flex-1 border rounded-lg p-2',
-          'focus:ring-2 focus:ring-blue-500 focus:outline-none',
-          'transition'
+            'flex-1 border border-border-color rounded-lg p-2 placeholder-accent' +
+            'text-text-primary focus:ring-2 focus:ring-accent focus:outline-none transition'
         )}
         required
       />
-      <label className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-100 transition">
+      <label className="flex items-center gap-2 bg-surface px-3 py-2 rounded-lg cursor-pointer hover:bg-btn-secondary transition">
         <input
           type="checkbox"
           checked={isCorrect}
           onChange={(e) => onChange('isCorrect', e.target.checked)}
-          className="w-4 h-4 cursor-pointer"
+          className="w-4 h-4 cursor-pointer accent-accent"
         />
         <span className="text-sm font-medium">Correct</span>
       </label>
@@ -43,7 +42,7 @@ export const AnswerInput: React.FC<AnswerInputProps> = ({
         <button
           type="button"
           onClick={onRemove}
-          className="text-red-600 hover:text-red-800 px-2 transition"
+          className="text-error hover:text-error-light px-2 transition"
         >
           ✕
         </button>

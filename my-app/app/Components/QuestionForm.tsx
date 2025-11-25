@@ -2,24 +2,10 @@ import React, { useState } from 'react'
 import AnswerInput from './AnswerInput'
 import {cn} from "@/app/utils/cn";
 
-interface Answer {
-  text: string
-  isCorrect: boolean
-}
+import {IQuestionForm, IAnswer} from "@/app/types/questionform";
+import Button from "@/app/Components/Button";
 
-interface QuestionFormProps {
-  questionNumber: number
-  initialData?: {
-    text: string
-    type: 'MULTIPLE' | 'BOOLEAN' | 'TEXT'
-    answers: Answer[]
-  }
-  onChange: (data: any) => void
-  onRemove?: () => void
-  showRemove?: boolean
-}
-
-export const QuestionForm: React.FC<QuestionFormProps> = ({
+export const QuestionForm: React.FC<IQuestionForm> = ({
   questionNumber,
   initialData,
   onChange,
@@ -35,6 +21,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
     ]
   })
 
+    //!TODO Потiм винести в окремий хук
   const updateQuestion = (field: string, value: any) => {
     const updated = { ...question, [field]: value }
     setQuestion(updated)
@@ -58,17 +45,19 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
   }
 
   return (
-    <div className="border rounded-xl p-6 space-y-4 bg-white shadow-sm">
+    <div className="border rounded-lg border-border-color
+     p-6 space-y-4 bg-elevated shadow-sm">
       <div className="flex justify-between items-center">
-        <h3 className="font-semibold text-lg">Question {questionNumber}</h3>
+        <h3 className="font-semibold text-lg text-text-primary">Question {questionNumber}</h3>
         {showRemove && (
-          <button
+          <Button
             type="button"
             onClick={onRemove}
-            className="text-red-600 hover:text-red-800 text-sm font-medium transition"
+            className="text-sm"
+            variant={"danger"}
           >
             Remove Question
-          </button>
+          </Button>
         )}
       </div>
 
@@ -78,9 +67,9 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
         onChange={(e) => updateQuestion('text', e.target.value)}
         placeholder="Question text"
         className={cn(
-          'w-full border rounded-lg p-3',
-          'focus:ring-2 focus:ring-blue-500 focus:outline-none',
-          'transition'
+            ' border  border-border-color rounded-lg p-3 bg-surface' +
+            'text-text-secondary ' +
+            'focus:ring-2 focus:ring-accent focus:outline-none transition'
         )}
         required
       />
@@ -89,10 +78,9 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
         value={question.type}
         onChange={(e) => updateQuestion('type', e.target.value)}
         className={cn(
-          'border rounded-lg p-3',
-          'focus:ring-2 focus:ring-blue-500 focus:outline-none',
-          'transition'
-        )}
+          'border ml-4 border-border-color rounded-lg p-3 bg-surface text-text-primary' +
+            'focus:ring-2 focus:ring-accent focus:outline-none transition'
+        )} // !TODO Потiм в окремий компонент винести
       >
         <option value="MULTIPLE">Multiple Choice</option>
         <option value="BOOLEAN">True/False</option>
@@ -100,7 +88,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
       </select>
 
       <div className="space-y-2">
-        <p className="text-sm font-medium text-gray-700">Answers:</p>
+        <p className="text-sm font-medium text-text-secondary">Answers:</p>
         {question.answers.map((answer, index) => (
           <AnswerInput
             key={index}
@@ -114,7 +102,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
         <button
           type="button"
           onClick={addAnswer}
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium transition"
+          className="text-accent hover:text-accent-hover text-sm font-medium transition"
         >
           + Add Answer
         </button>

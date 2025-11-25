@@ -12,7 +12,6 @@ export default function ViewQuiz() {
   const params = useParams()
   const router = useRouter()
   const [quiz, setQuiz] = useState<Quiz | null>(null)
-    const queryClient = useQueryClient();
     const {data, error, isLoading} = useQuery({
         queryKey: ['quiz', 'view-item'],
         queryFn:  () => api.getQuizById(Number(params.id)),

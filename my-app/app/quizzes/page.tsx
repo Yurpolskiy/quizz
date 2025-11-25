@@ -11,7 +11,6 @@ import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {toast} from "react-hot-toast";
 
 const QuizzesPage = () => {
-
     const queryClient = useQueryClient();
     const [quizzes, setQuizzes] = useState<QuizListItem[]>([])
 
