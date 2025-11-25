@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {QueryClientProvider} from "@tanstack/react-query";
-import {Toaster} from "react-hot-toast";
-import {QueryClient} from "@tanstack/query-core";
-import {Providers} from "@/app/providers";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
+import { QueryClient } from "@tanstack/query-core";
+import { Providers } from "@/app/providers";
 
 const queryClient = new QueryClient();
 
@@ -35,13 +35,12 @@ export default function RootLayout({
 
          mx-auto h-full antialiased`}
       >
-      <Providers>
+        <Providers>
           <main className="w-full h-full bg-surface p-4 rounded-lg ">
-              {children}
+            {children}
           </main>
-      </Providers>
+        </Providers>
       </body>
-
     </html>
   );
 }

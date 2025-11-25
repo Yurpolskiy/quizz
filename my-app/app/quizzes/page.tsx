@@ -1,42 +1,42 @@
-'use client';
+"use client";
 
-import React, {useEffect, useState} from 'react';
-import {useRouter} from "next/navigation";
-import {QuizListItem} from "@/app/types/quiz";
-import {api} from "@/app/api/api";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { QuizListItem } from "@/app/types/quiz";
+import { api } from "@/app/api/api";
 import Link from "next/link";
 import Button from "@/app/Components/Button";
 import QuizCard from "@/app/Components/QuizCard";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
-import {toast} from "react-hot-toast";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
 const QuizzesPage = () => {
-    const queryClient = useQueryClient();
-    const [quizzes, setQuizzes] = useState<QuizListItem[]>([])
+  const queryClient = useQueryClient();
+  const [quizzes, setQuizzes] = useState<QuizListItem[]>([]);
 
-    const {data, error, isLoading} = useQuery({
-        queryKey: ['quizzes'],
-        queryFn:  api.getQuizzes
-    })
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["quizzes"],
+    queryFn: api.getQuizzes,
+  });
 
-    useEffect(() => {
-        setQuizzes(data || [])
-    }, [quizzes]);
+  useEffect(() => {
+    setQuizzes(data || []);
+  }, [quizzes]);
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Delete this quizzes?')) return
+    if (!confirm("Delete this quizzes?")) return;
     try {
-        await api.deleteQuiz(id)
-        setQuizzes(() => quizzes.filter(quiz => quiz.id !== id))
-        toast.success("Quiz deleted successfully 🥳")
-        await queryClient.resetQueries({queryKey: ['quizzes']})
+      await api.deleteQuiz(id);
+      setQuizzes(() => quizzes.filter((quiz) => quiz.id !== id));
+      toast.success("Quiz deleted successfully 🥳");
+      await queryClient.resetQueries({ queryKey: ["quizzes"] });
     } catch (error) {
-        console.error('Failed to delete:', error)
-        toast.error("Failed to delete quiz 😞")
+      console.error("Failed to delete:", error);
+      toast.error("Failed to delete quiz 😞");
     }
-  }
+  };
 
-  if (isLoading) <h1>Loading...</h1>
+  if (isLoading) <h1>Loading...</h1>;
 
   if (error) {
     return (
@@ -46,7 +46,7 @@ const QuizzesPage = () => {
           <p>{`${error}`}</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -60,7 +60,9 @@ const QuizzesPage = () => {
 
       {quizzes.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-xl shadow-sm">
-          <p className="text-gray-500 text-lg mb-4">No quizzes yet. Create one!</p>
+          <p className="text-gray-500 text-lg mb-4">
+            No quizzes yet. Create one!
+          </p>
           <Link href="/create">
             <Button variant="primary">Create Your First Quiz</Button>
           </Link>
@@ -79,7 +81,7 @@ const QuizzesPage = () => {
         </div>
       )}
     </main>
-  )
+  );
 };
 
 export default QuizzesPage;

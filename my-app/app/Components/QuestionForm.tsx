@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import AnswerInput from './AnswerInput'
-import {cn} from "@/app/utils/cn";
+import React, { useState } from "react";
+import AnswerInput from "./AnswerInput";
+import { cn } from "@/app/utils/cn";
 
-import {IQuestionForm, IAnswer} from "@/app/types/questionform";
+import { IQuestionForm, IAnswer } from "@/app/types/questionform";
 import Button from "@/app/Components/Button";
 
 export const QuestionForm: React.FC<IQuestionForm> = ({
@@ -10,45 +10,61 @@ export const QuestionForm: React.FC<IQuestionForm> = ({
   initialData,
   onChange,
   onRemove,
-  showRemove = false
+  showRemove = false,
 }) => {
-  const [question, setQuestion] = useState(initialData || {
-    text: '',
-    type: 'MULTIPLE' as const,
-    answers: [
-      { text: '', isCorrect: false },
-      { text: '', isCorrect: false }
-    ]
-  })
+  const [question, setQuestion] = useState(
+    initialData || {
+      text: "",
+      type: "MULTIPLE" as const,
+      answers: [
+        { text: "", isCorrect: false },
+        { text: "", isCorrect: false },
+      ],
+    },
+  );
 
-    //!TODO Потiм винести в окремий хук
+  //!TODO Потiм винести в окремий хук
   const updateQuestion = (field: string, value: any) => {
-    const updated = { ...question, [field]: value }
-    setQuestion(updated)
-    onChange(updated)
-  }
+    const updated = { ...question, [field]: value };
+    setQuestion(updated);
+    onChange(updated);
+  };
 
-  const updateAnswer = (index: number, field: 'text' | 'isCorrect', value: string | boolean) => {
-    const newAnswers = [...question.answers]
-    newAnswers[index] = { ...newAnswers[index], [field]: value }
-    updateQuestion('answers', newAnswers)
-  }
+  const updateAnswer = (
+    index: number,
+    field: "text" | "isCorrect",
+    value: string | boolean,
+  ) => {
+    const newAnswers = [...question.answers];
+    newAnswers[index] = { ...newAnswers[index], [field]: value };
+    updateQuestion("answers", newAnswers);
+  };
 
   const addAnswer = () => {
-    updateQuestion('answers', [...question.answers, { text: '', isCorrect: false }])
-  }
+    updateQuestion("answers", [
+      ...question.answers,
+      { text: "", isCorrect: false },
+    ]);
+  };
 
   const removeAnswer = (index: number) => {
     if (question.answers.length > 2) {
-      updateQuestion('answers', question.answers.filter((_, i) => i !== index))
+      updateQuestion(
+        "answers",
+        question.answers.filter((_, i) => i !== index),
+      );
     }
-  }
+  };
 
   return (
-    <div className="border rounded-lg border-border-color
-     p-6 space-y-4 bg-elevated shadow-sm">
+    <div
+      className="border rounded-lg border-border-color
+     p-6 space-y-4 bg-elevated shadow-sm"
+    >
       <div className="flex justify-between items-center">
-        <h3 className="font-semibold text-lg text-text-primary">Question {questionNumber}</h3>
+        <h3 className="font-semibold text-lg text-text-primary">
+          Question {questionNumber}
+        </h3>
         {showRemove && (
           <Button
             type="button"
@@ -64,22 +80,22 @@ export const QuestionForm: React.FC<IQuestionForm> = ({
       <input
         type="text"
         value={question.text}
-        onChange={(e) => updateQuestion('text', e.target.value)}
+        onChange={(e) => updateQuestion("text", e.target.value)}
         placeholder="Question text"
         className={cn(
-            ' border  border-border-color rounded-lg p-3 bg-surface' +
-            'text-text-secondary ' +
-            'focus:ring-2 focus:ring-accent focus:outline-none transition'
+          " border  border-border-color rounded-lg p-3 bg-surface" +
+            "text-text-secondary " +
+            "focus:ring-2 focus:ring-accent focus:outline-none transition",
         )}
         required
       />
 
       <select
         value={question.type}
-        onChange={(e) => updateQuestion('type', e.target.value)}
+        onChange={(e) => updateQuestion("type", e.target.value)}
         className={cn(
-          'border ml-4 border-border-color rounded-lg p-3 bg-surface text-text-primary' +
-            'focus:ring-2 focus:ring-accent focus:outline-none transition'
+          "border ml-4 border-border-color rounded-lg p-3 bg-surface text-text-primary" +
+            "focus:ring-2 focus:ring-accent focus:outline-none transition",
         )} // !TODO Потiм в окремий компонент винести
       >
         <option value="MULTIPLE">Multiple Choice</option>
@@ -108,7 +124,7 @@ export const QuestionForm: React.FC<IQuestionForm> = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default QuestionForm
+export default QuestionForm;

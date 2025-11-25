@@ -1,19 +1,17 @@
-import React from 'react'
-import {Sidebar} from './sidebar/Sidebar'
+import React from "react";
+import { Sidebar } from "./sidebar/Sidebar";
 
 interface LayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <main className="flex-1 p-8">
-        {children}
-      </main>
+      <main className="flex-1 p-8">{children}</main>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

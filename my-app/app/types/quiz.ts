@@ -7,7 +7,7 @@ export interface Answer {
 export interface Question {
   id?: number;
   text: string;
-  type: 'MULTIPLE' | 'BOOLEAN' | 'TEXT';
+  type: "MULTIPLE" | "BOOLEAN" | "TEXT";
   answers?: Answer[];
 }
 
