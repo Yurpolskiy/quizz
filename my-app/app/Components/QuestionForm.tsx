@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import AnswerInput from "./AnswerInput";
 import { cn } from "@/app/utils/cn";
 
 import { IQuestionForm, IAnswer } from "@/app/types/questionform";
 import Button from "@/app/Components/Button";
 
+//!TODO потiм розбити компонент
 export const QuestionForm: React.FC<IQuestionForm> = ({
   questionNumber,
   initialData,
@@ -23,6 +25,34 @@ export const QuestionForm: React.FC<IQuestionForm> = ({
     },
   );
 
+  useEffect(() => {
+    if (question.type === "BOOLEAN") {
+      setQuestion((prev) => {
+        const updated = {
+          ...prev,
+          answers: [
+            { text: "True", isCorrect: false },
+            { text: "False", isCorrect: false },
+          ],
+        };
+        onChange(updated);
+        return updated;
+      });
+    } else if (question.type === "TEXT") {
+      setQuestion((prev) => {
+        const updated = {
+          ...prev,
+          answers: [
+            { text: "", isCorrect: false },
+            { text: "", isCorrect: false },
+          ],
+        };
+        onChange(updated);
+        return updated;
+      });
+    }
+  }, [question.type]);
+
   //!TODO Потiм винести в окремий хук
   const updateQuestion = (field: string, value: any) => {
     const updated = { ...question, [field]: value };
@@ -36,19 +66,28 @@ export const QuestionForm: React.FC<IQuestionForm> = ({
     value: string | boolean,
   ) => {
     const newAnswers = [...question.answers];
+    if (field === "isCorrect" && value === true) {
+      if (question.type === "BOOLEAN" || question.type === "TEXT") {
+        newAnswers.forEach((item, i) => {
+          if (i !== index) item.isCorrect = false;
+        });
+      }
+    }
     newAnswers[index] = { ...newAnswers[index], [field]: value };
     updateQuestion("answers", newAnswers);
   };
 
   const addAnswer = () => {
-    updateQuestion("answers", [
-      ...question.answers,
-      { text: "", isCorrect: false },
-    ]);
+    if (question.type !== "BOOLEAN") {
+      updateQuestion("answers", [
+        ...question.answers,
+        { text: "", isCorrect: false },
+      ]);
+    }
   };
 
   const removeAnswer = (index: number) => {
-    if (question.answers.length > 2) {
+    if (question.answers.length > 2 && question.type !== "BOOLEAN") {
       updateQuestion(
         "answers",
         question.answers.filter((_, i) => i !== index),
@@ -112,19 +151,25 @@ export const QuestionForm: React.FC<IQuestionForm> = ({
             isCorrect={answer.isCorrect}
             onChange={(field, value) => updateAnswer(index, field, value)}
             onRemove={() => removeAnswer(index)}
-            showRemove={question.answers.length > 2}
+            showRemove={
+              question.type === "MULTIPLE" && question.answers.length > 2
+            }
+            disabled={question.type === "BOOLEAN"}
           />
         ))}
-        <button
-          type="button"
-          onClick={addAnswer}
-          className="text-accent hover:text-accent-hover text-sm font-medium transition"
-        >
-          + Add Answer
-        </button>
+        {question.type !== "BOOLEAN" && (
+          <button
+            type="button"
+            onClick={addAnswer}
+            className="text-accent hover:text-accent-hover text-sm font-medium transition"
+          >
+            + Add Answer
+          </button>
+        )}
       </div>
     </div>
   );
 };
 
 export default QuestionForm;
+// Трохи величкий компонент =)

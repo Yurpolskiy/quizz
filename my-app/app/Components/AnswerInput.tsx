@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "@/app/utils/cn";
+import Button from "@/app/Components/Button";
 
 interface AnswerInputProps {
   value: string;
@@ -7,6 +8,7 @@ interface AnswerInputProps {
   onChange: (field: "text" | "isCorrect", value: string | boolean) => void;
   onRemove?: () => void;
   showRemove?: boolean;
+  disabled?: boolean;
 }
 
 export const AnswerInput: React.FC<AnswerInputProps> = ({
@@ -14,6 +16,7 @@ export const AnswerInput: React.FC<AnswerInputProps> = ({
   isCorrect,
   onChange,
   onRemove,
+  disabled,
   showRemove = false,
 }) => {
   return (
@@ -21,6 +24,7 @@ export const AnswerInput: React.FC<AnswerInputProps> = ({
       <input
         type="text"
         value={value}
+        disabled={disabled}
         onChange={(e) => onChange("text", e.target.value)}
         placeholder="Answer text"
         className={cn(
@@ -39,13 +43,13 @@ export const AnswerInput: React.FC<AnswerInputProps> = ({
         <span className="text-sm font-medium">Correct</span>
       </label>
       {showRemove && (
-        <button
+        <Button
           type="button"
           onClick={onRemove}
           className="text-error hover:text-error-light px-2 transition"
         >
           ✕
-        </button>
+        </Button>
       )}
     </div>
   );
