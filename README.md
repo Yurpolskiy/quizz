@@ -24,6 +24,7 @@ PORT=3000
 ### 2. Dependencies installation
 
 Install dependencies both in front-end and backend using `npm install`
+Then you'll need to make some migrations, write in your back-end folder `npx prisma migrate dev` 
 
 ### 3. Running the project
 
