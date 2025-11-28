@@ -21,7 +21,7 @@ const QuizzesPage = () => {
 
   useEffect(() => {
     setQuizzes(data || []);
-  }, [quizzes]);
+  }, [data]);
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this quizzes?")) return;
